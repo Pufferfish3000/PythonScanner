@@ -1,36 +1,79 @@
 #!/usr/bin/env python3
-"""
-Main scanner functions
+""" Contains the classes to be used by control.py to conduct port scanning
 
-@author: Byrnes
+@author: Byrnes 
 """
 
 import socket
 
 
-def checkPort(source, port):
-    # specifies an tcp port over an ipv4 address
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+class PortScanner:
+    """
+    A class representing a port scan
 
-    # attempts to connect to port
-    try:
-        s.connect((source, port))
-        return "connection established"
-    # if fails output error
-    except socket.error as error:
-        return (error)
-    # close connection
-    finally:
-        s.close()
+    ...
 
+    Attributes
+    ----------
+    target : str
+        A ipv4 address or domain that will be the target of the scan
 
-def tcpScan(target):
-    for port in range(1, 90):
-        # specifies an tcp port over an ipv4 address
+    Methods
+    -------
+    checkTcpPort(port)
+        Determines if a port is open
+    tcpScan()
+        Conducts a tcp connect scan on target
+    """
+
+    def __init__(self, target):
+        """
+        Parameters
+        ----------
+        target : str
+            A ipv4 address or domain that will be the target of the scan
+
+        Returns
+        -------
+        None
+
+        """
+
+        self.target = target
+
+    def checkTcpPort(self, port):
+        """ Determines if a port is open
+
+        Parameters
+        ----------
+        port : int
+            The port that is having its state checked
+
+        Returns
+        -------
+        port : int
+            Open ports
+
+        """
+
+        # specifies a tcp port over a ipv4 address
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # times out socket objects after one second
         socket.setdefaulttimeout(1)
 
         # checks if can successfully connect to port
-        if (s.connect_ex((target, port)) == 0):
-            print("port: " + str(port) + " is open")
+        if (s.connect_ex((self.target, port)) == 0):
+            return port
+
+    def tcpScan(self):
+        """ Conducts a tcp connect scan on target 
+
+        Returns
+        -------
+        None
+
+        """
+
+        # conducts a tcp connect scan on ports one through ninety
+        for port in range(1, 90):
+            print(PortScanner.checkTcpPort(self, port))
