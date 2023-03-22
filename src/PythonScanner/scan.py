@@ -22,3 +22,15 @@ def checkPort(source, port):
     # close connection
     finally:
         s.close()
+
+
+def tcpScan(target):
+    for port in range(1, 90):
+        # specifies an tcp port over an ipv4 address
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # times out socket objects after one second
+        socket.setdefaulttimeout(1)
+
+        # checks if can successfully connect to port
+        if (s.connect_ex((target, port)) == 0):
+            print("port: " + str(port) + " is open")
