@@ -1,15 +1,17 @@
+#!/usr/bin/env python3
 """
 Main controller
 
 @author: Byrnes
 """
 
-import re
+import argparse
+import scan
 
 """
-main function to run, gathers input from user to determine what the user wants
-to user the program for
+gathers input from user to determine what functions to run
 """
 def main():
-
+    params = str(input())
+    
 main()
