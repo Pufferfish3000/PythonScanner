@@ -8,10 +8,11 @@ Main controller
 import argparse
 import scan
 
-"""
-gathers input from user to determine what functions to run
-"""
+
 def main():
-    params = str(input())
-    
+    """
+    gathers input from user to determine what functions to run
+    """
+
+
 main()
