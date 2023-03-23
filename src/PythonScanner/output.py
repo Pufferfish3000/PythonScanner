@@ -13,3 +13,11 @@ class Output:
 
     def outputToTerminal(self):
         print(' '.join(self.data))
+
+    def outputToFile(self):
+        try:
+            f = open(self.path, "w")
+            f.write(' '.join(self.data))
+            f.close()
+        except:
+            print("an error occured when writing to " + self.path)
