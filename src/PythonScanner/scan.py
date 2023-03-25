@@ -6,7 +6,6 @@
 
 import socket
 
-
 class PortScanner:
     """
     A class representing a port scan
@@ -58,22 +57,46 @@ class PortScanner:
 
         # specifies a tcp port over a ipv4 address
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # times out socket objects after one second
-        socket.setdefaulttimeout(1)
+        # times out socket objects after one quarter second
+        socket.setdefaulttimeout(.25)
 
         # checks if can successfully connect to port
         if (s.connect_ex((self.target, port)) == 0):
             return port
+        return -1
 
     def tcpScan(self):
-        """ Conducts a tcp connect scan on target 
+        """ Conducts a tcp connect scan on a target
 
         Returns
         -------
-        None
+        openPorts : list
+            open ports
 
         """
 
+        openPorts = []
         # conducts a tcp connect scan on ports one through ninety
         for port in range(1, 90):
-            print(PortScanner.checkTcpPort(self, port))
+            checkedPort = self.checkTcpPort(port)
+            if checkedPort != -1:
+                openPorts.append(str(checkedPort))
+        return openPorts
+
+class Output:
+
+    def __init__(self, data, path):
+        self.data = data
+        self.path = path
+
+    def outputToTerminal(self):
+        print(' '.join(self.data))
+
+    def outputToFile(self):
+        try:
+            f = open(self.path, "w")
+            f.write(' '.join(self.data))
+            f.close()
+            print("successfully wrote to " + self.path)
+        except:
+            print("an error occured when writing to " + self.path)
