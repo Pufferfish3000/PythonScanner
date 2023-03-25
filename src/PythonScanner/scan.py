@@ -6,7 +6,6 @@
 
 import socket
 
-
 class PortScanner:
     """
     A class representing a port scan
@@ -83,3 +82,21 @@ class PortScanner:
             if checkedPort != -1:
                 openPorts.append(str(checkedPort))
         return openPorts
+
+class Output:
+
+    def __init__(self, data, path):
+        self.data = data
+        self.path = path
+
+    def outputToTerminal(self):
+        print(' '.join(self.data))
+
+    def outputToFile(self):
+        try:
+            f = open(self.path, "w")
+            f.write(' '.join(self.data))
+            f.close()
+            print("successfully wrote to " + self.path)
+        except:
+            print("an error occured when writing to " + self.path)

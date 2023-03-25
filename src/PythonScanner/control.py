@@ -15,18 +15,30 @@ def main():
     """
 
     parser = argparse.ArgumentParser(description="Simple tcp and udp scanner")
-    scanType = parser.add_mutually_exclusive_group()
-    parser.add_argument("address", type=str, dest="targetAddr",
+    outputMethod = parser.add_mutually_exclusive_group()
+
+    parser.add_argument("address", type=str,
                         help="The ipv4 address or domain of your target")
-    scanType.add_argument("--tcp-scan", "-t", type=str, action="store_true",
+    parser.add_argument("--tcp-scan", "-t", action="store_true",
                           dest="tcpScan", help="Tcp connect scan")
-    scanType.add_argument("--udp-scan", "-u", type=str, action="store_true",
-                          dest="udpScan", help="Udp scan")
+    outputMethod.add_argument("--output-terminal", "-o", action="store_true", 
+                        dest="terminal", help="outputs open ports to terminal")
+    outputMethod.add_argument("--output-file", "-f", type=str, 
+                        dest="file", help="outputs open ports to file")
     args = parser.parse_args()
 
-    print(args)
+    scanner = scan.PortScanner(args.address)
 
-    scanner = scan.PortScanner(args)
+    if(args.tcpScan):
+        out = scanner.tcpScan()
+    if(args.terminal):
+        outTerminal = scan.Output(out, "")
+        outTerminal.outputToTerminal()
+    if(args.file != None):
+        outFile = scan.Output(out, args.file)
+        outFile.outputToFile()
+
+    
 
 
 if __name__ == "__main__":
