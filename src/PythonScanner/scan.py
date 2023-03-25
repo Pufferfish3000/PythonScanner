@@ -6,6 +6,7 @@
 
 import socket
 
+
 class PortScanner:
     """
     A class representing a port scan
@@ -83,16 +84,62 @@ class PortScanner:
                 openPorts.append(str(checkedPort))
         return openPorts
 
+
 class Output:
+    """ A class representing the diffrent types of output that a user can choose
+
+    ...
+
+    Attributes
+    ----------
+    data : str
+        Relevant data to be outputted
+    path : str
+        Path and file type for an output file
+
+    Methods
+    -------
+    outputToTerminal()
+        Outputs data to Terminal
+    outputToFile()
+        Conducts a tcp connect scan on target
+    """
 
     def __init__(self, data, path):
+        """
+        Parameters
+        ----------
+        data : str
+            Relevant data to be outputted
+        path : str
+            Path and file type for an output file
+
+        Returns
+        -------
+        None.
+
+        """
         self.data = data
         self.path = path
 
     def outputToTerminal(self):
+        """ Outputs data to terminal
+
+        Returns
+        -------
+        None.
+
+        """
         print(' '.join(self.data))
 
     def outputToFile(self):
+        """ Outputs data to a file 
+
+        Returns
+        -------
+        None.
+
+        """
         try:
             f = open(self.path, "w")
             f.write(' '.join(self.data))
