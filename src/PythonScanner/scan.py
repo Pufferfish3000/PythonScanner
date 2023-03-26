@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
-""" Contains the classes to be used by control.py to conduct port scanning
+""" Contains the classes to be used by control.py to conduct port scanning and display output
 
+    PortScanner
+        Scans tcp ports using a tcp connect scan. Contains methods to scan a single
+        port, or ports 1 through 90. Methods return any open ports
+    Output
+        Outputs data to a terminal or file. Formats output as port numbers with
+        spaces to not interfere with any tools using the output
+    
 @author: Byrnes 
 """
 
@@ -78,7 +85,7 @@ class PortScanner:
 
         openPorts = []
         # conducts a tcp connect scan on ports one through ninety
-        for port in range(1, 90):
+        for port in range(1, 91):
             checkedPort = self.checkTcpPort(port)
             if checkedPort != -1:
                 openPorts.append(str(checkedPort))
@@ -87,6 +94,8 @@ class PortScanner:
 
 class Output:
     """ A class representing the diffrent types of output that a user can choose
+
+    Outputs only the port numbers to increase flow when piped into other functions
 
     ...
 

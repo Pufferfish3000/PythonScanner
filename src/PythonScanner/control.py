@@ -25,28 +25,45 @@ def main():
     parser.add_argument("address", type=str,
                         help="The ipv4 address or domain of your target")
     parser.add_argument("--tcp-scan", "-t", action="store_true",
-                        dest="tcpScan", help="Tcp connect scan")
-    outputMethod.add_argument("--output-terminal", "-o", action="store_true",
-                              dest="terminal", help="outputs open ports to terminal")
+                        dest="tcpScan", default=True,
+                        help="Tcp connect scan, default scan if not specified")
+    outputMethod.add_argument("--output-terminal", "-o", default=True, action="store_true",
+                              dest="terminal",
+                              help="outputs open ports to terminal, default output if not specified")
     outputMethod.add_argument("--output-file", "-f", type=str,
                               dest="file", help="outputs open ports to file")
 
     # stores relevant arguments in var args
     args = parser.parse_args()
 
-    # new Port scanner object using ipv4 address supplied by the user
+    # new Portscanner object using ipv4 address supplied by the user
     scanner = scan.PortScanner(args.address)
 
-    # runs methods based on relevant arguments
+    # checks for any and all arguments and runs if necessary
+
+    # checks to see if user used tcpScan argument
     if(args.tcpScan):
+        # runs tcp connect scan on target address specified in scanner object,
+        # then stores open ports in variable out
         out = scanner.tcpScan()
+
+    # checks if user used termianal argument
     if(args.terminal):
+        # creates a new Output object with open ports for data argument and an
+        # empty string for the path argument
         outTerminal = scan.Output(out, "")
+        # calls outputToTerminal method
         outTerminal.outputToTerminal()
+
+     # checks if user used file argment
     if(args.file != None):
+        # creates a new Output object with open ports for data argument and a
+        # str stored in args.file as the file path
         outFile = scan.Output(out, args.file)
+        # calls outputToFile method
         outFile.outputToFile()
 
 
+# executes when run as a script
 if __name__ == "__main__":
     main()
