@@ -39,21 +39,13 @@ def main():
     # new Portscanner object using ipv4 address supplied by the user
     scanner = scan.PortScanner(args.address)
 
-    # checks for any and all arguments and runs if necessary
+    # checks for any arguments and runs if necessary
 
     # checks to see if user used tcpScan argument
     if(args.tcpScan):
         # runs tcp connect scan on target address specified in scanner object,
         # then stores open ports in variable out
         out = scanner.tcpScan()
-
-    # checks if user used termianal argument
-    if(args.terminal):
-        # creates a new Output object with open ports for data argument and an
-        # empty string for the path argument
-        outTerminal = scan.Output(out, "")
-        # calls outputToTerminal method
-        outTerminal.outputToTerminal()
 
      # checks if user used file argment
     if(args.file != None):
@@ -62,6 +54,14 @@ def main():
         outFile = scan.Output(out, args.file)
         # calls outputToFile method
         outFile.outputToFile()
+
+    # checks if user used termianal argument
+    elif(args.terminal):
+        # creates a new Output object with open ports for data argument and an
+        # empty string for the path argument
+        outTerminal = scan.Output(out, "")
+        # calls outputToTerminal method
+        outTerminal.outputToTerminal()
 
 
 # executes when run as a script
